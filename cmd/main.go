@@ -17,9 +17,9 @@ func main() {
 	handler := rest.NewHandler(repo)
 
 	r := mux.NewRouter()
-	r.HandleFunc("/kv/{key}", handler.GetKeyValue).Methods("GET")
-	r.HandleFunc("/kv", handler.SetKeyValue).Methods("POST")
-	r.HandleFunc("/kv/{key}", handler.DeleteKeyValue).Methods("DELETE")
+	r.HandleFunc("/v1/key/{key}", handler.GetKeyValue).Methods("GET")
+	r.HandleFunc("/v1/key/{key}", handler.SetKeyValue).Methods("PUT")
+	r.HandleFunc("/v1/key/{key}", handler.DeleteKeyValue).Methods("DELETE")
 
 	logrus.Info("Starting server on :8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {

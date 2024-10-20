@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 
 	"github.com/Windemiatrix/golang-cloudbook-study/internal/domain"
@@ -35,20 +36,25 @@ func (h *Handler) GetKeyValue(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) SetKeyValue(w http.ResponseWriter, r *http.Request) {
-	var kv domain.KeyValue
-	if err := json.NewDecoder(r.Body).Decode(&kv); err != nil {
-		logrus.WithError(err).Error("Failed to decode request body")
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	vars := mux.Vars(r)
+	key := vars["key"]
+
+	b, err := io.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		logrus.WithError(err).Error("Failed to read request body")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	value := string(b)
 
-	if err := h.Repo.Set(kv.Key, kv.Value); err != nil {
+	if err := h.Repo.Set(key, value); err != nil {
 		logrus.WithError(err).Error("Failed to set key-value")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	logrus.WithFields(logrus.Fields{"key": kv.Key, "value": kv.Value}).Info("Key-value set")
+	logrus.WithFields(logrus.Fields{"key": key, "value": value}).Info("Key-value set")
 	w.WriteHeader(http.StatusCreated)
 }
 
