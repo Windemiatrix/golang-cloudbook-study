@@ -1,0 +1,50 @@
+# https://golangci-lint.run/usage/configuration/
+run:
+  # Timeout for analysis, e.g. 30s, 5m.
+  # Default: 1m
+  timeout: 20m
+  go: "1.23"
+
+linters:
+  disable-all: true
+  enable:
+    - revive
+    - goimports
+    - misspell
+  presets:
+    # - bugs
+    - comment
+    # - complexity
+    # - error
+    # - format
+    - import
+    # - metalinter
+    - module
+    # - performance
+    # - sql
+    # - style
+    - test
+    - unused
+issues:
+  new-from-rev: origin/main
+
+linters-settings:
+  exhaustruct:
+    struct-patterns:
+      - "disable"
+  revive:
+    # see https://github.com/mgechev/revive#available-rules for details.
+    ignore-generated-header: true
+    severity: warning
+    rules:
+      - name: atomic
+  depguard:
+    rules:
+      main:
+        files:
+          - $all
+        deny:
+          - pkg: "github.com/stretchr/testify"
+            desc: "test assertions must use gotest.tools/v3/assert"
+          - pkg: "log"
+            desc: "logging is standardised via yunikorn logrus"

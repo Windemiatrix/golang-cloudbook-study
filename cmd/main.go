@@ -10,7 +10,15 @@ import (
 )
 
 func main() {
-	logrus.SetFormatter(&logrus.JSONFormatter{})
+	logrus.SetFormatter(&logrus.JSONFormatter{
+		TimestampFormat:   "2006-01-02 15:04:05",
+		DisableTimestamp:  false,
+		DisableHTMLEscape: false,
+		DataKey:           "data",
+		FieldMap:          logrus.FieldMap{},
+		CallerPrettyfier:  nil,
+		PrettyPrint:       false,
+	})
 	logrus.SetLevel(logrus.InfoLevel)
 
 	repo := storage.NewInMemoryRepository()

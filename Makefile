@@ -17,7 +17,7 @@ test: ## Run tests
 
 .PHONY: lint
 lint: ## Run golang linters
-	golangci-lint run
+	golangci-lint run --timeout 5m0s --config ./.golangcli.yml
 
 .PHONY: tidy
 tidy: ## Tidy up the go.mod dependencies

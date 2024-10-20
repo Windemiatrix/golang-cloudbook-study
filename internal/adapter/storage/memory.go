@@ -15,6 +15,7 @@ type InMemoryRepository struct {
 func NewInMemoryRepository() *InMemoryRepository {
 	return &InMemoryRepository{
 		data: make(map[string]string),
+		mu:   sync.RWMutex{},
 	}
 }
 
