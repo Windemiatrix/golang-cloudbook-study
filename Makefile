@@ -9,7 +9,7 @@ help: ## Display this help.
 ##@ Helpers
 
 .PHONY: check
-check: %: format tidy lint test ## Run tidy, lint, and test commands
+check: %: format tidy lint test ## Run format, tidy, lint, and test commands
 
 .PHONY: test
 test: ## Run tests
