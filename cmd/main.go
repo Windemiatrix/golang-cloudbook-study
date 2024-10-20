@@ -13,7 +13,7 @@ func main() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logrus.SetLevel(logrus.InfoLevel)
 
-	repo := storage.NewInMemoryRepository() // Пример реализации хранилища
+	repo := storage.NewInMemoryRepository()
 	handler := rest.NewHandler(repo)
 
 	r := mux.NewRouter()
