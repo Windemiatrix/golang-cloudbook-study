@@ -9,7 +9,7 @@ help: ## Display this help.
 ##@ Helpers
 
 .PHONY: check
-check: %: format tidy lint test ## Run tidy, lint, and test commands
+check: %: format tidy lint test ## Run format, tidy, lint, and test commands
 
 .PHONY: test
 test: ## Run tests
@@ -17,7 +17,7 @@ test: ## Run tests
 
 .PHONY: lint
 lint: ## Run golang linters
-	golangci-lint run
+	golangci-lint run --timeout 5m0s --config ./.golangcli.yml
 
 .PHONY: tidy
 tidy: ## Tidy up the go.mod dependencies
