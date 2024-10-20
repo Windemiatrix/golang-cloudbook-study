@@ -29,7 +29,9 @@ func (h *Handler) GetKeyValue(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logrus.WithFields(logrus.Fields{"key": key, "value": value}).Info("Value retrieved")
-	json.NewEncoder(w).Encode(map[string]string{"key": key, "value": value})
+	if err := json.NewEncoder(w).Encode(map[string]string{"key": key, "value": value}); err != nil {
+		logrus.WithError(err).Error("Failed to encode response")
+	}
 }
 
 func (h *Handler) SetKeyValue(w http.ResponseWriter, r *http.Request) {
